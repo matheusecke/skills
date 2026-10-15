@@ -8,7 +8,7 @@ Portable [Agent Skills](https://agentskills.io/specification) for software engin
 
 | Skill | Purpose |
 | --- | --- |
-| [`development-workflow`](skills/development-workflow/SKILL.md) | Align Git references, investigate requirements and edge cases, write a persistent specification, and create an adaptive technical plan. It stops before implementation. |
+| [`planning-workflow`](skills/planning-workflow/SKILL.md) | Align Git references, investigate requirements and edge cases, write a persistent specification, and create an adaptive technical plan. It stops before implementation. |
 | [`decision-refinement`](skills/decision-refinement/SKILL.md) | Clarify proposals and decisions through dependency-aware questions, researched facts, trade-offs, and recommended answers. |
 
 Both skills are written in English. User-facing conversations and generated documents follow the user's preferred language or repository conventions.
@@ -21,7 +21,7 @@ Install both skills globally for Codex, Claude Code, and Cursor:
 
 ```bash
 npx skills add matheusecke/skills \
-  --skill development-workflow \
+  --skill planning-workflow \
   --skill decision-refinement \
   --agent codex --agent claude-code --agent cursor \
   --global
@@ -42,7 +42,7 @@ mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills"
 Create links to the actual skill directories. This keeps the clone as one source of truth and preserves each skill's `SKILL.md` and references:
 
 ```bash
-for skill in development-workflow decision-refinement; do
+for skill in planning-workflow decision-refinement; do
   for agent_dir in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
     target="$agent_dir/$skill"
     if [ -e "$target" ] || [ -L "$target" ]; then
@@ -58,16 +58,16 @@ The `~/.agents/skills/` directory is supported by Codex and Cursor; `~/.claude/s
 
 ## Usage
 
-Invoke a skill explicitly with `$development-workflow` in Codex or `/development-workflow` in Claude Code and Cursor. Replace the name to invoke `decision-refinement` directly. Invocation support can vary by agent version.
+Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workflow` in Claude Code and Cursor. Replace the name to invoke `decision-refinement` directly. Invocation support can vary by agent version.
 
-`development-workflow` guides engineering discovery and planning. It always produces a specification and stops for approval; a separate implementation-agnostic plan is optional for Tier 1, conditional for Tier 2, and required for Tier 3. It does not implement features. For structured, unresolved decisions, it uses `decision-refinement` when available. Installing both is recommended; the workflow has a lightweight fallback if the second skill is unavailable.
+`planning-workflow` guides engineering discovery and planning. It always produces a specification and stops for approval; a separate implementation-agnostic plan is optional for Tier 1, conditional for Tier 2, and required for Tier 3. It does not implement features. For structured, unresolved decisions, it uses `decision-refinement` when available. Installing both is recommended; the workflow has a lightweight fallback if the second skill is unavailable.
 
 ## Repository Structure
 
 ```text
 skills/
 ├── skills/
-│   ├── development-workflow/
+│   ├── planning-workflow/
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       ├── git-guidelines.md

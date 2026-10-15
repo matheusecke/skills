@@ -1,9 +1,9 @@
 ---
-name: development-workflow
-description: Plan or resume software features, bug fixes, and refactors. Align Git references before investigation, resolve business rules and edge cases against code, tests, and internal documentation, write a persistent specification for every change, and produce an adaptive technical plan when warranted. Use for engineering discovery, specification, and planning; not implementation.
+name: planning-workflow
+description: Investigate, specify, and technically plan software features, bug fixes, and refactors. Align Git references, resolve business rules and edge cases against code, tests, documentation, and the project's verification conventions, write a persistent specification for every change, and produce an adaptive technical plan when warranted. Use for discovery, specification, and planning; not implementation.
 ---
 
-# Development Workflow
+# Planning Workflow
 
 Own discovery, specification, and technical planning. **Stop before application implementation.** Do not prescribe the later execution agent, worktree, commit sequence, or implementation orchestration. The user approves artifacts, not a proposed method of implementation.
 
@@ -13,7 +13,7 @@ Own discovery, specification, and technical planning. **Stop before application 
 - **Always produce a spec**, even for a localized fix. Every affected business rule, expected behavior, contract, and relevant edge case must be precise; only document length varies by tier.
 - **One approval gate per artifact:** obtain explicit spec approval before drafting a separate plan. When a plan exists, obtain explicit plan approval. Stop at each pending approval; don't infer approval from an existing file.
 - **Resolve, do not defer:** never leave blocking behavioral, contract, compatibility, or architectural choices to an implementer. Investigate facts yourself; ask the user to decide policy and behavior.
-- **Test-oriented:** define behavior-based acceptance and regression scenarios. Favor test-first development where compatible with repository practice; do not include test implementation code in specs/plans.
+- **Project conventions first:** define observable acceptance and regression scenarios. They do not by themselves require an automated test. Follow the repository's test scope, file patterns, verification commands, and mandatory CI/CD gates, including coverage thresholds when they exist. Favor test-first only where that is already the practice. Do not impose TDD, new test types, or test infrastructure the project does not use, and do not omit a required check. Do not include test implementation code in specs or plans.
 - **Documentation follows the change:** investigate the relevant internal documentation with the code and tests, record its impact in the spec, and plan each update with the task that changes the related behavior. That change is not complete until the corresponding documentation matches, or the spec records that none applies and a new document is not justified. Schedule the update and its consistency check; do not edit operational documents before the behavior exists, and do not rewrite historical decisions. Details: [Spec guidelines](references/spec-guidelines.md) and [Planning guidelines](references/planning-guidelines.md).
 - **Language:** communicate and write artifacts in the user's preferred language unless the user or repository convention specifies otherwise. Preserve exact identifiers and paths.
 - **Efficiency:** search the smallest relevant code surface first; expand only on evidence of dependencies/risks. Preserve decisions, contracts, evidence and references rather than raw exploratory output. Use read-only subagents for substantial *independent* investigations only when parallelism or isolation outweighs overhead. Their concise findings must include evidence and uncertainty; the primary agent owns synthesis. Subagents do not change Git or code during discovery. Never trade correctness for token savings.
@@ -28,7 +28,7 @@ After alignment, check actual branches, upstream/remotes, dirty state, divergenc
 
 ### 2. Investigate and refine
 
-Read applicable repository instructions (`AGENTS.md`, `CLAUDE.md`, and similar), the relevant source and tests, and existing artifacts from the **verified** base. Before consolidating rules and contracts, locate and read the internal documentation for the modules and contracts in scope: business rules, technical contracts, module docs, OpenAPI descriptions, ADRs, instruction files, and their cross-references. Compare those documents with the relevant source and tests. When they diverge, investigate the origin of the divergence; do not silently treat one source as correct. Identify every document the proposed change would affect. Keep the search on that surface; do not read the repository's documentation indiscriminately.
+Read applicable repository instructions (`AGENTS.md`, `CLAUDE.md`, and similar), the relevant source and tests, and existing artifacts from the **verified** base. Before consolidating rules and contracts, locate and read the internal documentation for the modules and contracts in scope: business rules, technical contracts, module docs, OpenAPI descriptions, ADRs, instruction files, and their cross-references. Compare those documents with the relevant source and tests. When they diverge, investigate the origin of the divergence; do not silently treat one source as correct. Identify every document the proposed change would affect. Keep the search on that surface, including the test and CI/CD configuration that governs it; do not read the repository's documentation indiscriminately. From that material, identify the established test conventions, which kinds of files are tested, the verification commands, and any coverage thresholds or other quality gates that apply.
 
 Separate verified facts, inherited decisions, new requirements, unresolved decisions, documentation conflicts, and out-of-scope behavior.
 
@@ -46,7 +46,7 @@ Use the installed **`decision-refinement`** skill for structured unresolved deci
 1. Existing and new relevant business rules are consolidated.
 2. Applicable edge cases, errors, and state transitions have defined outcomes.
 3. No blocking gaps, contradictions, or unstated assumptions remain.
-4. Affected contracts and compatibility are precise enough to implement and verify.
+4. Affected contracts and compatibility are precise enough to implement and verify, and the applicable test conventions and mandatory CI/CD gates are identified.
 5. No material product or architecture decision is left to the implementer.
 6. Relevant internal documentation has been compared with the code and tests, or its absence is recorded. Any divergence has an investigated origin and an explicit resolution or open decision. Documents affected by the change are identified.
 

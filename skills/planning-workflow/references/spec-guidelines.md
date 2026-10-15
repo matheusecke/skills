@@ -30,7 +30,7 @@ If an unverified baseline was **explicitly authorized**, mark verification statu
 - **Scope:** included changes, meaningful exclusions and boundaries.
 - **Behavior and business rules:** expected flows, allowed/forbidden states, inputs and outputs, error handling, invariants, and edge cases relevant to this change.
 - **Contracts and technical decisions:** precisely define affected external/internal APIs, compatibility requirements, ownership, and important architecture decisions with reasoning.
-- **Acceptance and testing:** observable success/failure cases and regression scenarios; favor test-first behavior specification where the project supports TDD.
+- **Acceptance and verification:** observable success, failure, and regression scenarios. An acceptance scenario does not by itself require an automated test. State the automated tests and other checks that the repository's conventions and mandatory CI/CD gates require, including coverage thresholds when they exist. Favor test-first behavior specification only where the project already uses it. Do not prescribe a new test layer or infrastructure without a justified need.
 - **Documentation impact:** existing internal documents that must be updated, by path; new documents only when justified; the business rules and contracts those documents must reflect; inconsistencies that must be resolved; and references that must stay synchronized. If investigation found no applicable document, write that explicitly. A historical record such as an ADR stays historical: note when it should remain unchanged instead of rewriting the past decision as current behavior.
 
 Sections can be merged for a localized change; do not create empty headings. Documentation impact may be a short paragraph in a nearby section, but it is not optional. Contract precision is **not tier-dependent**: document every relevant behavior clearly in Tier 1 as well as Tier 3.
@@ -49,9 +49,9 @@ Prefer concrete examples and tables when they prevent semantic ambiguity. Use pr
 
 ## Internal review before approval
 
-1. Map every stated requirement to defined behavior/acceptance coverage.
+1. Map every stated requirement to defined, observable acceptance coverage.
 2. Confirm relevant business rules, inherited decisions, and edge cases are accurate and consistent with the code, tests, and applicable internal documentation. Divergences are explicit, not a silent choice of source.
-3. Ensure affected contracts specify inputs, outputs, states, error semantics, and compatibility precisely enough to implement and test without new behavioral choices.
+3. Ensure affected contracts specify inputs, outputs, states, error semantics, and compatibility precisely enough to implement and verify without new behavioral choices. Confirm the planned checks match project test patterns and mandatory quality gates, and do not add unrequired test infrastructure.
 4. Remove contradictions, undefined terms, assumptions presented as facts, and blocking open decisions.
 5. Ensure technical boundaries and exclusions are explicit and the document is usable for handoff.
 6. Verify cited file paths, names and examples against repository evidence when feasible.

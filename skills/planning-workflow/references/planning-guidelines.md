@@ -28,7 +28,7 @@ Prefer direct drafting. For genuinely complex coordination, an optional skeleton
 
 Prefer vertical slices with a cohesive, verifiable outcome. Avoid empty scaffolding and layer-by-layer splits that do not change that outcome. Keep each test with the task that owns the behavior. Include schema, migration, and regression work when the change needs them.
 
-When repository practice supports it, prefer this order and skip any stage that does not apply: define regressions and expected behavior; confirm the previous behavior; implement the change; run focused checks; synchronize documentation; run any further validation. Do not require a failing test first when the activity or the project does not support it. Do not add a stage only to match this list, and do not prescribe an execution tool, red-green-refactor checklist, branch strategy, worktree, agent split, or commit sequence.
+When automated tests apply and repository practice supports it, prefer this order and skip any stage that does not: define regressions and expected behavior; confirm the previous behavior; implement the change; run focused checks; synchronize documentation; run any further validation. Follow the project's test scope and file patterns. Include mandatory CI/CD, coverage, and other required checks, and do not omit one silently. Do not plan tests for layers or file kinds the project normally does not test, unless explicitly required or justified and approved. Do not require a failing test first when the activity or the project does not support it. Do not add a stage only to match this list, and do not prescribe an execution tool, red-green-refactor checklist, branch strategy, worktree, agent split, or commit sequence.
 
 A general validation matrix is optional. Add one only when it adds concrete value: shared-contract traceability across tasks, integrated acceptance between applications, cross-cutting scenarios that belong to no single task, or a repository-specific requirement. When it exists, do not reproduce the Steps' tests in full. An identifier from the spec or the matrix may accompany a scenario; it does not replace the scenario. The spec remains the source of truth; do not copy it into the plan.
 
@@ -62,9 +62,9 @@ Each relevant action identifies the file, the methods, functions, interfaces, or
 
 Do not repeat the full path on every bullet when those bullets are grouped under the same file. Related methods may share a bullet when the change is cohesive. Do not fold distinct responsibilities into one generic instruction.
 
-A test action names the test file. Each distinct behavior gets its own bullet with the condition and the expected result. A Step is understandable on its own: do not use identifiers such as `V1–V4` or `AC03` as the description of a test.
+When an automated test applies, name the test file that matches the project's patterns. Each distinct behavior gets its own bullet with the condition and the expected result. When none applies, state the pertinent verification instead of inventing test infrastructure. A Step is understandable on its own: do not use identifiers such as `V1–V4` or `AC03` as the description of a check.
 
-A documentation action follows [Documentation synchronization](#documentation-synchronization). Independent checks — focused tests, integration or contract checks, regressions, and static checks — each get a bullet.
+A documentation action follows [Documentation synchronization](#documentation-synchronization). Independent checks — focused tests, contract or integration checks, regressions, static checks, and any mandatory CI/CD or coverage gate — each get a bullet when they apply.
 
 Do not repeat one sentence across bullets, turn a trivial condition into its own task, or add a bullet with no technical content. Keep bullets that belong to one stage inside that Step. Do not create a Step only to fill a standard sequence.
 
@@ -84,7 +84,7 @@ When documents are updated, include one consistency check that no applicable doc
 - Confirm Files, Interfaces / Methods, Dependencies, and Acceptance are not required task sections.
 - Confirm documentation follows [Documentation synchronization](#documentation-synchronization).
 - Confirm a validation matrix, if present, is not required to understand a Step.
-- Check tests, migrations, errors, compatibility, and exclusions as applicable.
+- Check applicable tests, mandatory verification gates, migrations, errors, compatibility, and exclusions.
 - Ensure the plan neither contradicts the approved spec nor invents product or architecture choices.
 
 Resolve editorial or decomposition issues internally. If a behavioral or material architectural uncertainty arises, return to the spec and seek renewed approval before completing the plan. Mark `awaiting_approval`, present the plan, and **stop**. Once approved, set `approved` and hand off documents only.
