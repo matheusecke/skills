@@ -1,6 +1,6 @@
 ---
 name: development-workflow
-description: Plan or resume software features, bug fixes, and refactors. Align Git references before investigation, resolve business rules and edge cases, write a persistent specification for every change, and produce an adaptive technical plan when warranted. Use for engineering discovery, specification, and planning; not implementation.
+description: Plan or resume software features, bug fixes, and refactors. Align Git references before investigation, resolve business rules and edge cases against code, tests, and internal documentation, write a persistent specification for every change, and produce an adaptive technical plan when warranted. Use for engineering discovery, specification, and planning; not implementation.
 ---
 
 # Development Workflow
@@ -14,6 +14,7 @@ Own discovery, specification, and technical planning. **Stop before application 
 - **One approval gate per artifact:** obtain explicit spec approval before drafting a separate plan. When a plan exists, obtain explicit plan approval. Stop at each pending approval; don't infer approval from an existing file.
 - **Resolve, do not defer:** never leave blocking behavioral, contract, compatibility, or architectural choices to an implementer. Investigate facts yourself; ask the user to decide policy and behavior.
 - **Test-oriented:** define behavior-based acceptance and regression scenarios. Favor test-first development where compatible with repository practice; do not include test implementation code in specs/plans.
+- **Documentation follows the change:** investigate the relevant internal documentation with the code and tests, record its impact in the spec, and plan each update inside the task that changes the related behavior. A functional change that alters business rules, contracts, or documented behavior is not complete until the corresponding internal documentation matches the implementation. If no document applies and a new one is not justified, record that explicitly. This workflow only makes that work and its completion check explicit. Do not edit operational documents before the behavior exists, and do not rewrite historical decisions as if they never existed. Details: [Spec guidelines](references/spec-guidelines.md) and [Planning guidelines](references/planning-guidelines.md).
 - **Language:** communicate and write artifacts in the user's preferred language unless the user or repository convention specifies otherwise. Preserve exact identifiers and paths.
 - **Efficiency:** search the smallest relevant code surface first; expand only on evidence of dependencies/risks. Preserve decisions, contracts, evidence and references rather than raw exploratory output. Use read-only subagents for substantial *independent* investigations only when parallelism or isolation outweighs overhead. Their concise findings must include evidence and uncertainty; the primary agent owns synthesis. Subagents do not change Git or code during discovery. Never trade correctness for token savings.
 
@@ -27,7 +28,9 @@ After alignment, check actual branches, upstream/remotes, dirty state, divergenc
 
 ### 2. Investigate and refine
 
-Read applicable repository instructions (`AGENTS.md`, `CLAUDE.md`, etc.), referenced docs, relevant source/tests and existing artifacts from the **verified** base. Separate verified facts, inherited decisions, new requirements, unresolved decisions, and out-of-scope behavior.
+Read applicable repository instructions (`AGENTS.md`, `CLAUDE.md`, and similar), the relevant source and tests, and existing artifacts from the **verified** base. Before consolidating rules and contracts, locate and read the internal documentation for the modules and contracts in scope: business rules, technical contracts, module docs, OpenAPI descriptions, ADRs, instruction files, and their cross-references. Compare those documents with the relevant source and tests. When they diverge, investigate the origin of the divergence; do not silently treat one source as correct. Identify every document the proposed change would affect. Keep the search on that surface; do not read the repository's documentation indiscriminately.
+
+Separate verified facts, inherited decisions, new requirements, unresolved decisions, documentation conflicts, and out-of-scope behavior.
 
 Classify after the initial investigation; give a brief reason and reclassify when evidence warrants. **Risk beats size.**
 
@@ -39,27 +42,32 @@ Classify after the initial investigation; give a brief reason and reclassify whe
 
 Use the installed **`decision-refinement`** skill for structured unresolved decisions: preferred for Tiers 2–3, and in Tier 1 when questions are interdependent. Discover/load its actual instructions using the agent's skill facility (or read its installed `SKILL.md`); merely mentioning its name does not activate it. Delimit scope to unresolved choices, avoid re-opening settled decisions, and do not ask questions already answered by code or documentation. Skip a redundant interview when decisions are already clear. If unavailable, conduct a lightweight dependency-aware interview yourself: options, trade-offs, recommended answer, await the user's choices. Do not claim the external skill was used when it wasn't.
 
-**Discovery exit criteria — all five required, every tier:**
+**Discovery exit criteria — all six required, every tier:**
 1. Existing and new relevant business rules are consolidated.
 2. Applicable edge cases, errors, and state transitions have defined outcomes.
 3. No blocking gaps, contradictions, or unstated assumptions remain.
 4. Affected contracts and compatibility are precise enough to implement and verify.
 5. No material product or architecture decision is left to the implementer.
+6. Relevant internal documentation has been compared with the code and tests, or its absence is recorded. Any divergence has an investigated origin and an explicit resolution or open decision. Documents affected by the change are identified.
 
 If any criterion fails, investigate or ask; do not draft an approvable spec. No separate discovery-approval gate is required.
 
 ### 3. Draft, review, and approve the spec
 
-Read [Spec guidelines](references/spec-guidelines.md). Follow an established repository convention; otherwise write to `docs/development/specs/YYYY-MM-DD-<slug>-design.md`. Preserve the verified Git baseline and approval status in frontmatter. Review the actual rules, behavior, errors, invariants, contracts, compatibility, acceptance scenarios and handoff quality against discovered evidence. Correct editorial defects internally; resolve material gaps with the user. Set `status: awaiting_approval`, present the spec and **stop for explicit approval**. Record `approved` after approval; never silently change approved requirements.
+Read [Spec guidelines](references/spec-guidelines.md). Follow an established repository convention; otherwise write to `docs/development/specs/YYYY-MM-DD-<slug>-design.md`. Preserve the verified Git baseline and approval status in frontmatter. Record the documentation impact — documents to update, new documents only with justification, contracts and rules the docs must reflect, inconsistencies to resolve, and references that must stay synchronized — without copying operational documents into the spec. Review the actual rules, behavior, errors, invariants, contracts, compatibility, documentation impact, acceptance scenarios and handoff quality against discovered evidence. Correct editorial defects internally; resolve material gaps with the user. Set `status: awaiting_approval`, present the spec and **stop for explicit approval**. Record `approved` after approval; never silently change approved requirements.
 
 ### 4. Plan only when warranted
 
 Only after explicit spec approval, determine whether a separate plan is useful (Tier 1 optional, Tier 2 conditional, Tier 3 mandatory; explicit user request overrides). If a plan is required, read [Planning guidelines](references/planning-guidelines.md); otherwise stop with the approved spec. Follow repository conventions; default to `docs/development/plans/YYYY-MM-DD-<slug>-implementation.md`.
 
-Reference the spec instead of duplicating it. Use a direct plan unless genuine dependency complexity calls for a short outline followed by progressive task detailing; do not add a separate outline-approval gate. Plan work as coherent verifiable tasks, preserving interfaces and dependencies. Describe testing by behaviors and outcomes, **never test code**; include production code only if essential to explain runtime logic or a contract. Review traceability and consistency, mark `awaiting_approval`, present the plan, **stop for approval**, then record `approved` and hand off. Never implement.
+Reference the spec instead of duplicating it. Use a direct plan unless genuine dependency complexity calls for a short outline followed by progressive task detailing. An initial skeleton is optional and is never a separate approval gate. Whenever a plan exists, use one task structure at every tier: full names (`Milestone 1`, `Task 1`, `Step 1`), and every task includes Objective, Files, Interfaces / Methods, Steps, Dependencies, and Acceptance. Complexity changes how many tasks and how deep the steps go. It does not remove those sections, and a small plan does not gain an artificial milestone.
+
+Put each documentation update in the task that changes the related behavior. When corresponding documentation must change, the plan is not complete until that work and a final consistency check are explicit. If the spec found no applicable document and does not justify a new one, record `N/A` instead of adding a documentation task. Do not schedule operational docs to describe behavior before it is implemented, and preserve historical records.
+
+Each Step is one logical stage. When it includes several files, methods, or test scenarios, give each change or scenario its own bullet. Describe tests by inputs, conditions, and expected outcomes, **never test code**; include production code only when essential to explain a contract or algorithm. Prefer a test-first order when the project supports it, and skip stages that do not apply. Review traceability and consistency, mark `awaiting_approval`, present the plan, **stop for approval**, then record `approved` and hand off. Never implement. Structural rules: [Planning guidelines](references/planning-guidelines.md).
 
 ### 5. Resume safely
 
-On a resumed task, perform Git alignment/readiness again *before* examining potentially stale feature code. Read the spec/plan and statuses, compare the saved baseline SHA with the latest verified reference, and selectively revalidate affected assumptions and contracts. Don't repeat settled interviewing. A changed SHA alone does not invalidate approval, but material changes to approved behavior, contracts, scope, or architecture require renewed approval. Continue from the first genuinely incomplete stage.
+On a resumed task, perform Git alignment/readiness again *before* examining potentially stale feature code. Read the spec/plan and statuses, compare the saved baseline SHA with the latest verified reference, and selectively revalidate affected assumptions, contracts, and the internal documentation the spec relies on. Don't repeat settled interviewing. A changed SHA alone does not invalidate approval, but material changes to approved behavior, contracts, scope, or architecture require renewed approval. Continue from the first genuinely incomplete stage.
 
 At handoff, report relevant document paths, statuses, tier, Git baseline, and any user-authorized limitations. Do not create a separate workflow-state document.
