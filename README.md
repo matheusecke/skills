@@ -2,7 +2,7 @@
 
 ## Overview
 
-Portable [Agent Skills](https://agentskills.io/specification) for software engineering discovery, specification, planning, and decision-making. Install them from GitHub with the [`skills` CLI](https://github.com/vercel-labs/skills), or use the manual symlink method below.
+Portable [Agent Skills](https://agentskills.io/specification) for software engineering discovery, specification, planning, implementation, and decision-making. Install them from GitHub with the [`skills` CLI](https://github.com/vercel-labs/skills), or use the manual symlink method below.
 
 ## Available Skills
 
@@ -10,19 +10,21 @@ Portable [Agent Skills](https://agentskills.io/specification) for software engin
 | --- | --- |
 | [`planning-workflow`](skills/planning-workflow/SKILL.md) | Align Git references, investigate requirements and edge cases, write a persistent specification, and create an adaptive technical plan. It stops before implementation. |
 | [`decision-refinement`](skills/decision-refinement/SKILL.md) | Clarify proposals and decisions through dependency-aware questions, researched facts, trade-offs, and recommended answers. |
+| [`implementation-workflow`](skills/implementation-workflow/SKILL.md) | Execute an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery. |
 
-Both skills are written in English. User-facing conversations and generated documents follow the user's preferred language or repository conventions.
+These skills are written in English. User-facing conversations and generated documents follow the user's preferred language or repository conventions.
 
 ## Installation
 
 ### Recommended: Skills CLI
 
-Install both skills globally for Codex, Claude Code, and Cursor:
+Install these skills globally for Codex, Claude Code, and Cursor:
 
 ```bash
 npx skills add matheusecke/skills \
   --skill planning-workflow \
   --skill decision-refinement \
+  --skill implementation-workflow \
   --agent codex --agent claude-code --agent cursor \
   --global
 ```
@@ -42,7 +44,7 @@ mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills"
 Create links to the actual skill directories. This keeps the clone as one source of truth and preserves each skill's `SKILL.md` and references:
 
 ```bash
-for skill in planning-workflow decision-refinement; do
+for skill in planning-workflow decision-refinement implementation-workflow; do
   for agent_dir in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
     target="$agent_dir/$skill"
     if [ -e "$target" ] || [ -L "$target" ]; then
@@ -58,9 +60,11 @@ The `~/.agents/skills/` directory is supported by Codex and Cursor; `~/.claude/s
 
 ## Usage
 
-Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workflow` in Claude Code and Cursor. Replace the name to invoke `decision-refinement` directly. Invocation support can vary by agent version.
+Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workflow` in Claude Code and Cursor. Replace the name to invoke `decision-refinement` or `implementation-workflow` directly. Invocation support can vary by agent version.
 
 `planning-workflow` guides engineering discovery and planning. It always produces a specification and stops for approval; a separate implementation-agnostic plan is optional for Tier 1, conditional for Tier 2, and required for Tier 3. It does not implement features. For structured, unresolved decisions, it uses `decision-refinement` when available. Installing both is recommended; the workflow has a lightweight fallback if the second skill is unavailable.
+
+`implementation-workflow` executes an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery through one consolidated checkpoint. It implements within those approved artifacts and does not replace discovery or planning.
 
 ## Repository Structure
 
@@ -73,8 +77,15 @@ skills/
 │   │       ├── git-guidelines.md
 │   │       ├── spec-guidelines.md
 │   │       └── planning-guidelines.md
-│   └── decision-refinement/
-│       └── SKILL.md
+│   ├── decision-refinement/
+│   │   └── SKILL.md
+│   └── implementation-workflow/
+│       ├── SKILL.md
+│       └── references/
+│           ├── plan-execution.md
+│           ├── spec-execution.md
+│           ├── testing-guidelines.md
+│           └── progress-guidelines.md
 ├── THIRD_PARTY_NOTICES.md
 ├── LICENSE
 └── README.md
