@@ -2,13 +2,13 @@
 
 ## When to plan
 
-A separate plan starts **only after explicit approval of the spec**.
+A separate plan starts **only after approval of the spec**.
 
 - **Tier 1:** usually omit; create if the user asks or coordination warrants it.
 - **Tier 2:** create if sequential dependencies, cross-module contracts, multiple work sessions, or handoff risk make decomposition valuable. Otherwise the approved spec is sufficient.
 - **Tier 3:** always create a structured plan.
 
-Use repository conventions; otherwise `docs/development/plans/YYYY-MM-DD-<slug>-implementation.md`. Record `status`, `tier`, `updated`, `reference_commit`, and a link or path to the approved spec. Do not assume any future execution tool or orchestration.
+Use repository conventions; otherwise `docs/development/plans/YYYY-MM-DD-<slug>-implementation.md`. Record `tier`, `updated`, `reference_commit`, and a link or path to the approved spec. Do not assume any future execution tool or orchestration.
 
 The same task structure applies whenever a plan exists. Tier and risk decide how many tasks, steps, and bullets are warranted. A simple plan may be a single task with a few steps and no milestone. A complex plan may use several milestones, shared interfaces, explicit non-sequential dependencies, and integrated checks.
 
@@ -87,4 +87,4 @@ When documents are updated, include one consistency check that no applicable doc
 - Check applicable tests, mandatory verification gates, migrations, errors, compatibility, and exclusions.
 - Ensure the plan neither contradicts the approved spec nor invents product or architecture choices.
 
-Resolve editorial or decomposition issues internally. If a behavioral or material architectural uncertainty arises, return to the spec and seek renewed approval before completing the plan. Mark `awaiting_approval`, present the plan, and **stop**. Once approved, set `approved` and hand off documents only.
+Resolve editorial or decomposition issues internally. If a behavioral or material architectural uncertainty arises, return to the spec and seek renewed approval before completing the plan. Present the plan and **stop** for approval before handing off documents.

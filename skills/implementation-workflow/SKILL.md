@@ -17,7 +17,7 @@ Execute approved software changes in the current agent context. This skill imple
 
 ## 1. Identify and prepare
 
-1. Use the provided spec/plan paths, or locate the corresponding artifacts through targeted repository inspection. Follow repository conventions (defaults: `docs/development/specs/` and `docs/development/plans/`). Verify approval from artifact status or explicit user approval; existence alone is insufficient.
+1. Use the provided spec/plan paths, or locate the corresponding artifacts through targeted repository inspection. Follow repository conventions (defaults: `docs/development/specs/` and `docs/development/plans/`). Confirm approval from the conversation: a clear request to execute the presented spec or plan counts as approval. The artifact's existence alone is insufficient; if authorization is unclear, ask.
 2. If an approved plan exists, read [plan execution](references/plan-execution.md). If no formal plan exists and the spec is approved, read [spec execution](references/spec-execution.md). If a formal plan is unapproved, contradictory, or materially stale, resolve that before editing.
 3. Read [progress guidelines](references/progress-guidelines.md) and [testing guidelines](references/testing-guidelines.md). Load applicable repository instructions (`AGENTS.md`, `CLAUDE.md`, etc.).
 4. Inspect branch, HEAD, working tree, relevant preexisting changes, and the source artifacts' Git baseline when available. Revalidate material assumptions affected by changes; a changed SHA alone is not a blocker. Find relevant testing patterns, documentation and quality gates. Keep this check proportional; do not redo the planning investigation.

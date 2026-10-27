@@ -10,7 +10,6 @@ A compact frontmatter is recommended (adapt to repository conventions):
 
 ```yaml
 ---
-status: draft # draft | awaiting_approval | approved
 tier: 2
 updated: YYYY-MM-DD
 reference_commit: <verified-base-SHA>
@@ -20,7 +19,7 @@ target_branch: <name>
 ---
 ```
 
-If an unverified baseline was **explicitly authorized**, mark verification status and limitations visibly. Never fabricate a SHA or approval status. Existing repository conventions take precedence over this exact metadata layout.
+If an unverified baseline was **explicitly authorized**, mark verification status and limitations visibly. Never fabricate a SHA. Existing repository conventions take precedence over this exact metadata layout.
 
 ## Essential content (all tiers)
 
@@ -57,4 +56,4 @@ Prefer concrete examples and tables when they prevent semantic ambiguity. Use pr
 6. Verify cited file paths, names and examples against repository evidence when feasible.
 7. Confirm the documentation impact names the affected documents, or records that none apply and that no new document is justified. Inconsistencies are listed or explicitly absent. The spec does not duplicate operational documents.
 
-If review finds a material gap, investigate or ask before requesting approval. Non-blocking follow-ups may be listed with explicit scope. Write `awaiting_approval` and **stop** for explicit approval; after approval record `approved` without silently changing substantive decisions.
+If review finds a material gap, investigate or ask before requesting approval. Non-blocking follow-ups may be listed with explicit scope. Present the spec and **stop** for approval; do not silently change substantive decisions.
