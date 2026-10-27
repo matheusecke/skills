@@ -10,7 +10,7 @@ Own discovery, specification, and technical planning. **Stop before application 
 ## Non-negotiable rules
 
 - **Git before code:** clarify source/base, working, and PR-target branches before investigating feature code. Then verify freshness and repository state. Git readiness is a hard gate; see [Git guidelines](references/git-guidelines.md).
-- **Always produce a spec**, even for a localized fix. Every affected business rule, expected behavior, contract, and relevant edge case must be precise; only document length varies by tier.
+- **Always produce a spec**, even for a localized fix. Every affected business rule, expected behavior, contract, and relevant edge case must be precise; adapt the level of detail to the change.
 - **One approval gate per artifact:** obtain the user's approval before advancing. A clear request to proceed with the presented spec or plan counts as approval; the file's existence alone does not. Do not record approval status in artifacts.
 - **Resolve, do not defer:** never leave blocking behavioral, contract, compatibility, or architectural choices to an implementer. Investigate facts yourself; ask the user to decide policy and behavior.
 - **Project conventions first:** define observable acceptance and regression scenarios. They do not by themselves require an automated test. Follow the repository's test scope, file patterns, verification commands, and mandatory CI/CD gates, including coverage thresholds when they exist. Favor test-first only where that is already the practice. Do not impose TDD, new test types, or test infrastructure the project does not use, and do not omit a required check. Do not include test implementation code in specs or plans.
@@ -32,17 +32,11 @@ Read applicable repository instructions (`AGENTS.md`, `CLAUDE.md`, and similar),
 
 Separate verified facts, inherited decisions, new requirements, unresolved decisions, documentation conflicts, and out-of-scope behavior.
 
-Classify after the initial investigation; give a brief reason and reclassify when evidence warrants. **Risk beats size.**
+Adapt the depth of the spec and planning to the change's complexity and risk. **Risk beats size.**
 
-| Tier | Signals | Documents |
-| --- | --- | --- |
-| **1 — Localized** | Contained behavior, established patterns, low cross-component risk | Concise spec; plan only if requested or demonstrably useful |
-| **2 — Structured** | Several related flows/modules, bounded contract changes, moderate risk or connected decisions | Full spec; concise direct plan when dependencies, coordination or handoff justify it |
-| **3 — Complex** | Architectural choices, consequential migrations, breaking contracts, coupled dependencies or high-risk regressions | Detailed spec + structured plan; progressive outlining only if valuable |
+Use the installed **`decision-refinement`** skill for structured unresolved decisions, especially when questions are interdependent. Discover/load its actual instructions using the agent's skill facility (or read its installed `SKILL.md`); merely mentioning its name does not activate it. Delimit scope to unresolved choices, avoid re-opening settled decisions, and do not ask questions already answered by code or documentation. Skip a redundant interview when decisions are already clear. If unavailable, conduct a lightweight dependency-aware interview yourself: options, trade-offs, recommended answer, await the user's choices. Do not claim the external skill was used when it wasn't.
 
-Use the installed **`decision-refinement`** skill for structured unresolved decisions: preferred for Tiers 2–3, and in Tier 1 when questions are interdependent. Discover/load its actual instructions using the agent's skill facility (or read its installed `SKILL.md`); merely mentioning its name does not activate it. Delimit scope to unresolved choices, avoid re-opening settled decisions, and do not ask questions already answered by code or documentation. Skip a redundant interview when decisions are already clear. If unavailable, conduct a lightweight dependency-aware interview yourself: options, trade-offs, recommended answer, await the user's choices. Do not claim the external skill was used when it wasn't.
-
-**Discovery exit criteria — all six required, every tier:**
+**Discovery exit criteria — all six required:**
 1. Existing and new relevant business rules are consolidated.
 2. Applicable edge cases, errors, and state transitions have defined outcomes.
 3. No blocking gaps, contradictions, or unstated assumptions remain.
@@ -58,7 +52,7 @@ Read [Spec guidelines](references/spec-guidelines.md). Follow an established rep
 
 ### 4. Plan only when warranted
 
-Only after spec approval, determine whether a separate plan is useful (Tier 1 optional, Tier 2 conditional, Tier 3 mandatory; explicit user request overrides). If a plan is required, read [Planning guidelines](references/planning-guidelines.md); otherwise stop with the approved spec. Follow repository conventions; default to `docs/development/plans/YYYY-MM-DD-<slug>-implementation.md`.
+Only after spec approval, determine whether a separate plan is useful. Create one when requested or when dependencies, coordination, handoff, or risk warrant it; use a structured plan for consequential migrations, breaking contracts, coupled dependencies, or high-risk regressions. If a plan is required, read [Planning guidelines](references/planning-guidelines.md); otherwise stop with the approved spec. Follow repository conventions; default to `docs/development/plans/YYYY-MM-DD-<slug>-implementation.md`.
 
 Reference the spec instead of duplicating it. Use a direct plan unless genuine dependency complexity calls for a short outline followed by progressive task detailing. An initial skeleton is optional and is never a separate approval gate. Each task uses Objective, Scope, and Steps: Scope is the file inventory; Steps identify the file, the relevant methods, the concrete change, and the expected behavior. [Planning guidelines](references/planning-guidelines.md) define that structure, including Scope–Step correspondence and when a non-sequential dependency must be stated. A small plan does not gain an artificial milestone.
 
@@ -70,4 +64,4 @@ Review traceability and consistency, present the plan, and **stop for approval**
 
 On a resumed task, perform Git alignment/readiness again *before* examining potentially stale feature code. Read the spec/plan and confirm approval from the conversation; if unclear, ask. Compare the saved baseline SHA with the latest verified reference, and selectively revalidate affected assumptions, contracts, and the internal documentation the spec relies on. Don't repeat settled interviewing. A changed SHA alone does not invalidate approval, but material changes to approved behavior, contracts, scope, or architecture require renewed approval. Continue from the first genuinely incomplete stage.
 
-At handoff, report relevant document paths, tier, Git baseline, and any user-authorized limitations. Do not create a separate workflow-state document.
+At handoff, report relevant document paths, Git baseline, and any user-authorized limitations. Do not create a separate workflow-state document.

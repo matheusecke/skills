@@ -2,7 +2,7 @@
 
 ## Core contract
 
-Every change gets a persistent, self-contained spec, even if the change is small. Use **one adaptive structure**, not three rigid templates. It must be understandable to a developer who did not participate in the conversation. State the *what, why, expected behavior, and architectural boundaries*; do not write a per-file implementation plan here.
+Every change gets a persistent, self-contained spec, even if the change is small. Use **one consistent structure**, with detail proportional to the change. It must be understandable to a developer who did not participate in the conversation. State the *what, why, expected behavior, and architectural boundaries*; do not write a per-file implementation plan here.
 
 Use repository documentation paths and conventions; otherwise default to `docs/development/specs/YYYY-MM-DD-<slug>-design.md`.
 
@@ -10,7 +10,6 @@ A compact frontmatter is recommended (adapt to repository conventions):
 
 ```yaml
 ---
-tier: 2
 updated: YYYY-MM-DD
 reference_commit: <verified-base-SHA>
 base_branch: <remote/base>
@@ -21,7 +20,7 @@ target_branch: <name>
 
 If an unverified baseline was **explicitly authorized**, mark verification status and limitations visibly. Never fabricate a SHA. Existing repository conventions take precedence over this exact metadata layout.
 
-## Essential content (all tiers)
+## Essential content
 
 - **Context and objective:** problem, motivation, intended outcome.
 - **Git context:** base/source, working branch, target, verified SHA and any synchronization exception.
@@ -32,7 +31,7 @@ If an unverified baseline was **explicitly authorized**, mark verification statu
 - **Acceptance and verification:** observable success, failure, and regression scenarios. An acceptance scenario does not by itself require an automated test. State the automated tests and other checks that the repository's conventions and mandatory CI/CD gates require, including coverage thresholds when they exist. Favor test-first behavior specification only where the project already uses it. Do not prescribe a new test layer or infrastructure without a justified need.
 - **Documentation impact:** existing internal documents that must be updated, by path; new documents only when justified; the business rules and contracts those documents must reflect; inconsistencies that must be resolved; and references that must stay synchronized. If investigation found no applicable document, write that explicitly. A historical record such as an ADR stays historical: note when it should remain unchanged instead of rewriting the past decision as current behavior.
 
-Sections can be merged for a localized change; do not create empty headings. Documentation impact may be a short paragraph in a nearby section, but it is not optional. Contract precision is **not tier-dependent**: document every relevant behavior clearly in Tier 1 as well as Tier 3.
+Sections can be merged for a localized change; do not create empty headings. Documentation impact may be a short paragraph in a nearby section, but it is not optional. Document every relevant behavior and contract precisely, regardless of change size.
 
 Record the impact only. Do not paste, rewrite, or otherwise duplicate operational documents inside the spec, and do not update those documents during specification to describe behavior that is not implemented yet.
 

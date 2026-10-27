@@ -4,13 +4,11 @@
 
 A separate plan starts **only after approval of the spec**.
 
-- **Tier 1:** usually omit; create if the user asks or coordination warrants it.
-- **Tier 2:** create if sequential dependencies, cross-module contracts, multiple work sessions, or handoff risk make decomposition valuable. Otherwise the approved spec is sufficient.
-- **Tier 3:** always create a structured plan.
+Create a plan when requested or when dependencies, coordination, handoff, or risk make decomposition valuable. Otherwise the approved spec is sufficient. Use a structured plan for consequential migrations, breaking contracts, coupled dependencies, or high-risk regressions.
 
-Use repository conventions; otherwise `docs/development/plans/YYYY-MM-DD-<slug>-implementation.md`. Record `tier`, `updated`, `reference_commit`, and a link or path to the approved spec. Do not assume any future execution tool or orchestration.
+Use repository conventions; otherwise `docs/development/plans/YYYY-MM-DD-<slug>-implementation.md`. Record `updated`, `reference_commit`, and a link or path to the approved spec. Do not assume any future execution tool or orchestration.
 
-The same task structure applies whenever a plan exists. Tier and risk decide how many tasks, steps, and bullets are warranted. A simple plan may be a single task with a few steps and no milestone. A complex plan may use several milestones, shared interfaces, explicit non-sequential dependencies, and integrated checks.
+The same task structure applies whenever a plan exists. Complexity and risk determine how many tasks, steps, and bullets are warranted. A simple plan may be a single task with a few steps and no milestone. A complex plan may use several milestones, shared interfaces, explicit non-sequential dependencies, and integrated checks.
 
 **Tasks and Steps follow their documented execution order by default. Explicit dependencies are described only when they introduce non-sequential prerequisites, parallel execution opportunities or cross-component coordination requirements.**
 
