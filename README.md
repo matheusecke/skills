@@ -102,7 +102,7 @@ skills/
 └── README.md
 ```
 
-[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) records the upstream reference and attribution for `decision-refinement`; the upstream skill source is not vendored or installable from this repository.
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) records third-party references and attribution; upstream skill sources are not vendored or installable from this repository.
 
 ## Updating Skills
 
@@ -126,6 +126,10 @@ Each installable skill lives in `skills/<name>/` and must include a valid `SKILL
 
 ## Credits and License
 
-`decision-refinement` is adapted from Matt Pocock's original [`grilling` skill](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md). The upstream reference, adaptation notes, and MIT license link are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+`decision-refinement` is adapted from Matt Pocock's original [`grilling` skill](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md).
+
+`visual-prototyping` is an original implementation inspired by Jesse Vincent's [Superpowers brainstorming](https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/brainstorming) and Matt Pocock's [prototype skill](https://github.com/mattpocock/skills/tree/a496f5513d4a4cf889bc48e189e579f4b0bdf6aa/skills/engineering/prototype), both MIT licensed.
+
+See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for provenance, adaptation notes, and license references.
 
 Original content in this repository is licensed under MIT; see [`LICENSE`](LICENSE). Third-party material retains its own applicable notices.
