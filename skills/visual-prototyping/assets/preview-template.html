@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Visual preview</title>
+<style>
+*{box-sizing:border-box}
+:root{color-scheme:dark;font:14px/1.5 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#f5f2ec;background:#191816}
+body{margin:0}
+header{position:sticky;top:0;z-index:1;padding:20px 24px;background:#22211e;border-bottom:1px solid rgba(245,242,236,.12)}
+h1{margin:0 0 16px;font-size:18px;font-weight:600;letter-spacing:-.02em}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+label{display:flex;gap:8px;align-items:center;color:#c2bdb4;font-size:13px}
+button,select{min-height:36px;font:inherit;color:#f5f2ec;background:#302e2a;border:1px solid rgba(245,242,236,.15);border-radius:8px;box-shadow:inset 0 1px rgba(255,255,255,.06);padding:7px 12px}
+button{cursor:pointer}
+button:hover,select:hover{background:#3b3833;border-color:rgba(245,242,236,.26)}
+button:active{background:#45413b}
+button:focus-visible,select:focus-visible{outline:2px solid #a9c7ff;outline-offset:2px}
+#status{display:inline-flex;align-items:center;gap:8px;margin-left:auto;color:#c2bdb4;font-size:13px}
+#status::before{content:"";width:7px;height:7px;border-radius:50%;background:#aaa59c}
+#error{margin:14px 0 0;color:#ffb4a9}
+main{padding:24px;overflow:auto}
+.frames{display:flex;align-items:flex-start;gap:20px;width:max-content;min-width:100%}
+.card{overflow:hidden;background:#24221f;border:1px solid rgba(245,242,236,.14);border-radius:12px;padding:8px}
+.card h2{font-size:14px;font-weight:600;margin:0;padding:8px 8px 12px}
+iframe{display:block;border:0;border-radius:6px;height:75vh;background:#fff}
+.empty{margin:0;padding:40px 24px;color:#c2bdb4}
+@media(max-width:600px){header{position:static;padding:16px}h1{margin-bottom:12px}.controls{gap:10px 12px}#status{margin-left:0}main{padding:16px}}
+</style></head><body><header><h1 id="title">Visual preview</h1><div class="controls"><label>View <select id="mode"><option value="single">Individual</option><option value="compare">Compare</option></select></label><label>Proposal <select id="selection"></select></label><label>Viewport <select id="width"><option value="375">375 px</option><option value="768">768 px</option><option value="1440">1440 px</option></select></label><button id="expand" type="button">Expand</button><button id="restore" type="button">Restore proposal</button><span id="status" role="status">Connecting</span></div><p id="error" role="alert" hidden></p></header><main><div id="frames" class="frames"></div><p id="empty" class="empty" hidden>Waiting for a proposal.</p></main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const stateKey = 'visual-preview';
+  let state; try { state = JSON.parse(sessionStorage.getItem(stateKey)) || {}; } catch { state = {}; }
+  let catalog = {title:'Visual preview', alternatives:[]}, revision, expanded = state.expanded || false;
+  $('mode').value = state.mode || 'single'; $('width').value = state.width || '1440';
+  function save() { sessionStorage.setItem(stateKey, JSON.stringify({mode:$('mode').value, width:$('width').value, selected:state.selected, expanded})); }
+  function render(reload = []) {
+    $('title').textContent = catalog.title; document.title = catalog.title;
+    const items = catalog.alternatives;
+    if (!items.some(a => a.id === state.selected)) state.selected = items[0]?.id;
+    $('selection').replaceChildren(...items.map(a => { const o = document.createElement('option'); o.value = a.id; o.textContent = a.title; return o; }));
+    $('selection').value = state.selected || '';
+    const shown = $('mode').value === 'compare' && !expanded ? items : items.filter(a => a.id === state.selected);
+    $('empty').hidden = items.length > 0;
+    const frames = $('frames');
+    for (const card of [...frames.children]) if (!shown.some(a => a.id === card.dataset.id)) card.remove();
+    for (const [index, a] of shown.entries()) {
+      let card = [...frames.children].find(c => c.dataset.id === a.id);
+      if (!card) { card = document.createElement('section'); card.className = 'card'; card.dataset.id = a.id; const heading = document.createElement('h2'); const frame = document.createElement('iframe'); frame.setAttribute('sandbox','allow-scripts allow-forms'); card.append(heading, frame); }
+      card.firstChild.textContent = a.title;
+      const frame = card.lastChild; frame.title = a.title; frame.style.width = $('width').value + 'px';
+      const src = 'content/' + a.entry.split('/').map(encodeURIComponent).join('/');
+      if (frame.dataset.src !== src || reload.includes(a.id) || reload.includes('*')) { frame.dataset.src = src; frame.src = src; }
+      if (frames.children[index] !== card) frames.insertBefore(card, frames.children[index] || null);
+    }
+    $('expand').textContent = expanded ? 'Restore comparison' : 'Expand'; save();
+  }
+  async function refresh(paths) {
+    try { const response = await fetch('catalog'); if (!response.ok) throw Error(); const data = await response.json(); catalog = data.catalog; $('error').hidden = !data.error; $('error').textContent = data.error || ''; const reload = paths.filter(p => p !== 'manifest.json').map(p => { const id = p.split('/')[0]; return p.includes('/') && catalog.alternatives.some(a => a.id === id) ? id : '*'; }); render(reload); }
+    catch { $('error').hidden = false; $('error').textContent = 'Catalog unavailable; reconnecting.'; }
+  }
+  for (const id of ['mode','width','selection']) $(id).addEventListener('change', () => { if (id === 'selection') state.selected = $('selection').value; render(); });
+  $('expand').addEventListener('click', () => { expanded = !expanded; render(); });
+  $('restore').addEventListener('click', () => render([state.selected]));
+  const events = new EventSource('events');
+  events.onopen = () => { $('status').textContent = 'Connected'; };
+  events.onerror = () => { $('status').textContent = 'Reconnecting'; };
+  events.onmessage = event => { const data = JSON.parse(event.data); if (data.paths.includes('@template')) { location.reload(); return; } const changed = revision && revision !== data.revision; revision = data.revision; refresh(changed && !data.paths.length ? ['*'] : data.paths); };
+})();
+</script></body></html>

@@ -18,3 +18,7 @@
 5. Return a compact outcome for downstream workflows without creating an extra formal approval gate.
 
 These modifications are not endorsed by or affiliated with the original author. Future upstream changes are not incorporated automatically; compare upstream material and review it manually before adapting it.
+
+## Visual prototyping inspirations
+
+The `visual-prototyping` skill is an original implementation informed by [Superpowers brainstorming](https://github.com/obra/superpowers/tree/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b/skills/brainstorming) (Jesse Vincent, MIT) and [Matt Pocock prototype](https://github.com/mattpocock/skills/tree/a496f5513d4a4cf889bc48e189e579f4b0bdf6aa/skills/engineering/prototype) (MIT). The preview uses SSE and an explicit catalog, and does not vendor upstream code or automatically synchronize with either source.
