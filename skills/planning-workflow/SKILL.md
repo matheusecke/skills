@@ -36,6 +36,8 @@ Adapt the depth of the spec and planning to the change's complexity and risk. **
 
 Use the installed **`decision-refinement`** skill for structured unresolved decisions, especially when questions are interdependent. Discover/load its actual instructions using the agent's skill facility (or read its installed `SKILL.md`); merely mentioning its name does not activate it. Delimit scope to unresolved choices, avoid re-opening settled decisions, and do not ask questions already answered by code or documentation. Skip a redundant interview when decisions are already clear. If unavailable, conduct a lightweight dependency-aware interview yourself: options, trade-offs, recommended answer, await the user's choices. Do not claim the external skill was used when it wasn't.
 
+When seeing a concrete layout, hierarchy, responsiveness, comparison, or interaction question would help, discover `visual-prototyping` using the agent's skill mechanism and offer it before spec approval. A direct user request already authorizes it; otherwise wait for explicit acceptance before creating prototype files or starting infrastructure. A refusal means continue in text without repeating the offer for that question. If unavailable, explain and continue in text without installing or emulating it. As coordinator, pass the question and authorization state to nested `decision-refinement`; it must not duplicate the offer. Incorporate the visual handoff into the spec, resolve important open visual questions, and retain the existing single spec approval gate.
+
 **Discovery exit criteria — all six required:**
 1. Existing and new relevant business rules are consolidated.
 2. Applicable edge cases, errors, and state transitions have defined outcomes.

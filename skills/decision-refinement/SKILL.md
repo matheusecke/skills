@@ -30,6 +30,10 @@ Recommendation: <recommended choice and why>
 
 After each response, record which decisions are settled, recompute the frontier, and ask the next round. Do not repeat answered questions or manufacture choices to lengthen the interview.
 
+## Visual decisions
+
+When a concrete decision would benefit from seeing layout, hierarchy, responsiveness, comparison, or interaction, discover `visual-prototyping` through the agent's skill mechanism. In a calling workflow, return an unoffered opportunity to the coordinator and respect the passed question and authorization state; do not repeat a pending or declined offer. On its own, offer the available skill and wait for explicit acceptance, unless a direct prototype request already authorizes it. If unavailable, explain and continue in text; never install or emulate it automatically. Return visual decisions as part of the normal handoff without a separate approval gate.
+
 ## Facts versus decisions
 
 Investigate **facts** using available documentation, code, files, tools, or other permitted evidence rather than asking the user to look them up. The **decisions** about desired behavior, product policy, and meaningful trade-offs belong to the user.

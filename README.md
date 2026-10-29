@@ -10,6 +10,7 @@ Portable [Agent Skills](https://agentskills.io/specification) for software engin
 | --- | --- |
 | [`planning-workflow`](skills/planning-workflow/SKILL.md) | Align Git references, investigate requirements and edge cases, write a persistent specification, and create an adaptive technical plan. It stops before implementation. |
 | [`decision-refinement`](skills/decision-refinement/SKILL.md) | Clarify proposals and decisions through dependency-aware questions, researched facts, trade-offs, and recommended answers. |
+| [`visual-prototyping`](skills/visual-prototyping/SKILL.md) | Create local visual prototypes to resolve concrete design and interaction decisions. |
 | [`implementation-workflow`](skills/implementation-workflow/SKILL.md) | Execute an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery. |
 
 These skills are written in English. User-facing conversations and generated documents follow the user's preferred language or repository conventions.
@@ -25,6 +26,7 @@ npx skills add matheusecke/skills \
   --skill planning-workflow \
   --skill decision-refinement \
   --skill implementation-workflow \
+  --skill visual-prototyping \
   --agent codex --agent claude-code --agent cursor \
   --global
 ```
@@ -44,7 +46,7 @@ mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills"
 Create links to the actual skill directories. This keeps the clone as one source of truth and preserves each skill's `SKILL.md` and references:
 
 ```bash
-for skill in planning-workflow decision-refinement implementation-workflow; do
+for skill in planning-workflow decision-refinement implementation-workflow visual-prototyping; do
   for agent_dir in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
     target="$agent_dir/$skill"
     if [ -e "$target" ] || [ -L "$target" ]; then
@@ -64,6 +66,10 @@ Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workf
 
 `planning-workflow` guides engineering discovery and planning. It always produces a specification and stops for approval in the conversation; a clear request to proceed counts as approval, without recording it in the artifact. A separate implementation-agnostic plan is created when requested or warranted by dependencies, coordination, handoff, or risk; complex or high-risk changes use a structured plan. It does not implement features. For structured, unresolved decisions, it uses `decision-refinement` when available. Installing both is recommended; the workflow has a lightweight fallback if the second skill is unavailable.
 
+`visual-prototyping` produces local visual references for a concrete question. A direct prototype request or explicit acceptance of an offer authorizes creation; a suggestion alone does not. Planning and decision refinement can optionally offer it, respecting refusals and existing approval gates. It needs Bash 3.2+, Node.js 22+ and a modern browser with EventSource. The preview binds to local loopback and automatic browser opening is best-effort; remote hosts may need user-managed port forwarding. Foreground execution in a persistent job may be needed when an agent terminates background processes. See its [runtime guide](skills/visual-prototyping/references/preview-runtime.md).
+
+Prototypes remain in `.development/prototypes/<slug>/`; the project's versioning policy applies. Private operational state, including the connection credential and log, is kept outside the project in the system temporary directory. A prototype is an optional reference, not production code or a substitute for a self-contained approved spec.
+
 `implementation-workflow` executes an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery through one consolidated checkpoint. It implements within those approved artifacts and does not replace discovery or planning.
 
 ## Repository Structure
@@ -79,6 +85,11 @@ skills/
 │   │       └── planning-guidelines.md
 │   ├── decision-refinement/
 │   │   └── SKILL.md
+│   ├── visual-prototyping/
+│   │   ├── SKILL.md
+│   │   ├── references/
+│   │   ├── assets/preview-template.html
+│   │   └── scripts/
 │   └── implementation-workflow/
 │       ├── SKILL.md
 │       └── references/

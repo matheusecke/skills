@@ -45,6 +45,10 @@ Record the impact only. Do not paste, rewrite, or otherwise duplicate operationa
 
 Prefer concrete examples and tables when they prevent semantic ambiguity. Use production code or schemas only if necessary to specify the contract. Never fill the spec with test implementation code.
 
+## Visual references
+
+When visual prototyping informed a decision, record the choice, rationale, layout and responsive constraints, behaviors and states, simplifications, and relevant open issues. A relative `.development/prototypes/<slug>/` path may identify the selected local artifact, but it is optional and may not exist in another checkout. The spec must remain sufficient for implementation without the artifact; never use the temporary preview URL as a persistent reference.
+
 ## Internal review before approval
 
 1. Map every stated requirement to defined, observable acceptance coverage.
