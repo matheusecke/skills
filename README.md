@@ -68,8 +68,6 @@ Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workf
 
 `visual-prototyping` produces local visual references for a concrete question. A direct prototype request or explicit acceptance of an offer authorizes creation; a suggestion alone does not. Planning and decision refinement can optionally offer it, respecting refusals and existing approval gates. It needs Bash 3.2+, Node.js 22+ and a modern browser with EventSource. The preview binds to local loopback and automatic browser opening is best-effort; remote hosts may need user-managed port forwarding. Foreground execution in a persistent job may be needed when an agent terminates background processes. See its [runtime guide](skills/visual-prototyping/references/preview-runtime.md).
 
-Prototypes remain in `.development/prototypes/<slug>/`; the project's versioning policy applies. Private operational state, including the connection credential and log, is kept outside the project in the system temporary directory. A prototype is an optional reference, not production code or a substitute for a self-contained approved spec.
-
 `implementation-workflow` executes an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery through one consolidated checkpoint. It implements within those approved artifacts and does not replace discovery or planning.
 
 ## Repository Structure
