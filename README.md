@@ -12,6 +12,7 @@ Portable [Agent Skills](https://agentskills.io/specification) for software engin
 | [`decision-refinement`](skills/decision-refinement/SKILL.md) | Clarify proposals and decisions through dependency-aware questions, researched facts, trade-offs, and recommended answers. |
 | [`visual-prototyping`](skills/visual-prototyping/SKILL.md) | Create local visual prototypes to resolve concrete design and interaction decisions. |
 | [`implementation-workflow`](skills/implementation-workflow/SKILL.md) | Execute an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery. |
+| [`commit-conventions`](skills/commit-conventions/SKILL.md) | Organize changes into focused commits and write consistent messages with or without issue identifiers. |
 
 These skills are written in English. User-facing conversations and generated documents follow the user's preferred language or repository conventions.
 
@@ -27,6 +28,7 @@ npx skills add matheusecke/skills \
   --skill decision-refinement \
   --skill implementation-workflow \
   --skill visual-prototyping \
+  --skill commit-conventions \
   --agent codex --agent claude-code --agent cursor \
   --global
 ```
@@ -46,7 +48,7 @@ mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills"
 Create links to the actual skill directories. This keeps the clone as one source of truth and preserves each skill's `SKILL.md` and references:
 
 ```bash
-for skill in planning-workflow decision-refinement implementation-workflow visual-prototyping; do
+for skill in planning-workflow decision-refinement implementation-workflow visual-prototyping commit-conventions; do
   for agent_dir in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
     target="$agent_dir/$skill"
     if [ -e "$target" ] || [ -L "$target" ]; then
@@ -70,6 +72,8 @@ Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workf
 
 `implementation-workflow` executes an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery through one consolidated checkpoint. It implements within those approved artifacts and does not replace discovery or planning.
 
+`commit-conventions` proposes or creates focused commits using consistent messages, with an issue identifier when reliably associated with the work. A proposal alone does not authorize creating commits.
+
 ## Repository Structure
 
 ```text
@@ -82,6 +86,8 @@ skills/
 │   │       ├── spec-guidelines.md
 │   │       └── planning-guidelines.md
 │   ├── decision-refinement/
+│   │   └── SKILL.md
+│   ├── commit-conventions/
 │   │   └── SKILL.md
 │   ├── visual-prototyping/
 │   │   ├── SKILL.md
