@@ -13,6 +13,7 @@ Portable [Agent Skills](https://agentskills.io/specification) for software engin
 | [`visual-prototyping`](skills/visual-prototyping/SKILL.md) | Create local visual prototypes to resolve concrete design and interaction decisions. |
 | [`implementation-workflow`](skills/implementation-workflow/SKILL.md) | Execute an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery. |
 | [`commit-conventions`](skills/commit-conventions/SKILL.md) | Organize changes into focused commits and write consistent messages with or without issue identifiers. |
+| [`qa-handoff`](skills/qa-handoff/SKILL.md) | Prepare evidence-based delivery information to help QA understand, access, and test a change. |
 
 These skills are written in English. User-facing conversations and generated documents follow the user's preferred language or repository conventions.
 
@@ -29,6 +30,7 @@ npx skills add matheusecke/skills \
   --skill implementation-workflow \
   --skill visual-prototyping \
   --skill commit-conventions \
+  --skill qa-handoff \
   --agent codex --agent claude-code --agent cursor \
   --global
 ```
@@ -48,7 +50,7 @@ mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills"
 Create links to the actual skill directories. This keeps the clone as one source of truth and preserves each skill's `SKILL.md` and references:
 
 ```bash
-for skill in planning-workflow decision-refinement implementation-workflow visual-prototyping commit-conventions; do
+for skill in planning-workflow decision-refinement implementation-workflow visual-prototyping commit-conventions qa-handoff; do
   for agent_dir in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
     target="$agent_dir/$skill"
     if [ -e "$target" ] || [ -L "$target" ]; then
@@ -74,6 +76,8 @@ Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workf
 
 `commit-conventions` proposes or creates focused commits using consistent messages, with an issue identifier when reliably associated with the work. A proposal alone does not authorize creating commits.
 
+`qa-handoff` prepares or reviews delivery information for QA, separating confirmed facts from pending information. It does not create test cases unless requested.
+
 ## Repository Structure
 
 ```text
@@ -88,6 +92,8 @@ skills/
 │   ├── decision-refinement/
 │   │   └── SKILL.md
 │   ├── commit-conventions/
+│   │   └── SKILL.md
+│   ├── qa-handoff/
 │   │   └── SKILL.md
 │   ├── visual-prototyping/
 │   │   ├── SKILL.md
