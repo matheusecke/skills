@@ -8,6 +8,7 @@ Portable [Agent Skills](https://agentskills.io/specification) for software engin
 
 | Skill | Purpose |
 | --- | --- |
+| [`debugging-workflow`](skills/debugging-workflow/SKILL.md) | Investigate software failures and establish evidence-backed root causes without implementing fixes. |
 | [`planning-workflow`](skills/planning-workflow/SKILL.md) | Align Git references, investigate requirements and edge cases, write a persistent specification, and create an adaptive technical plan. It stops before implementation. |
 | [`decision-refinement`](skills/decision-refinement/SKILL.md) | Clarify proposals and decisions through dependency-aware questions, researched facts, trade-offs, and recommended answers. |
 | [`visual-prototyping`](skills/visual-prototyping/SKILL.md) | Create local visual prototypes to resolve concrete design and interaction decisions. |
@@ -25,6 +26,7 @@ Install these skills globally for Codex, Claude Code, and Cursor:
 
 ```bash
 npx skills add matheusecke/skills \
+  --skill debugging-workflow \
   --skill planning-workflow \
   --skill decision-refinement \
   --skill implementation-workflow \
@@ -50,7 +52,7 @@ mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills"
 Create links to the actual skill directories. This keeps the clone as one source of truth and preserves each skill's `SKILL.md` and references:
 
 ```bash
-for skill in planning-workflow decision-refinement implementation-workflow visual-prototyping commit-conventions qa-handoff; do
+for skill in debugging-workflow planning-workflow decision-refinement implementation-workflow visual-prototyping commit-conventions qa-handoff; do
   for agent_dir in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
     target="$agent_dir/$skill"
     if [ -e "$target" ] || [ -L "$target" ]; then
@@ -68,6 +70,8 @@ The `~/.agents/skills/` directory is supported by Codex and Cursor; `~/.claude/s
 
 Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workflow` in Claude Code and Cursor. Replace the name to invoke `decision-refinement` or `implementation-workflow` directly. Invocation support can vary by agent version.
 
+`debugging-workflow` investigates failures and reports evidence-backed diagnoses without prescribing or implementing fixes.
+
 `planning-workflow` guides engineering discovery and planning. It always produces a specification and stops for approval in the conversation; a clear request to proceed counts as approval, without recording it in the artifact. A separate implementation-agnostic plan is created when requested or warranted by dependencies, coordination, handoff, or risk; complex or high-risk changes use a structured plan. It does not implement features. For structured, unresolved decisions, it uses `decision-refinement` when available. Installing both is recommended; the workflow has a lightweight fallback if the second skill is unavailable.
 
 `visual-prototyping` produces local visual references for a concrete question. A direct prototype request or explicit acceptance of an offer authorizes creation; a suggestion alone does not. Planning and decision refinement can optionally offer it, respecting refusals and existing approval gates. It needs Bash 3.2+, Node.js 22+ and a modern browser with EventSource. The preview binds to local loopback and automatic browser opening is best-effort; remote hosts may need user-managed port forwarding. Foreground execution in a persistent job may be needed when an agent terminates background processes. See its [runtime guide](skills/visual-prototyping/references/preview-runtime.md).
@@ -83,6 +87,9 @@ Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workf
 ```text
 skills/
 ├── skills/
+│   ├── debugging-workflow/
+│   │   ├── SKILL.md
+│   │   └── references/
 │   ├── planning-workflow/
 │   │   ├── SKILL.md
 │   │   └── references/
