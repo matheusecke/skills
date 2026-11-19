@@ -8,12 +8,12 @@ Portable [Agent Skills](https://agentskills.io/specification) for software engin
 
 | Skill | Purpose |
 | --- | --- |
-| [`code-review-workflow`](skills/code-review-workflow/SKILL.md) | Review code changes, existing code, or review feedback with evidence-backed findings. |
-| [`debugging-workflow`](skills/debugging-workflow/SKILL.md) | Investigate software failures and establish evidence-backed root causes without implementing fixes. |
 | [`planning-workflow`](skills/planning-workflow/SKILL.md) | Align Git references, investigate requirements and edge cases, write a persistent specification, and create an adaptive technical plan. It stops before implementation. |
 | [`decision-refinement`](skills/decision-refinement/SKILL.md) | Clarify proposals and decisions through dependency-aware questions, researched facts, trade-offs, and recommended answers. |
 | [`visual-prototyping`](skills/visual-prototyping/SKILL.md) | Create local visual prototypes to resolve concrete design and interaction decisions. |
 | [`implementation-workflow`](skills/implementation-workflow/SKILL.md) | Execute an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery. |
+| [`debugging-workflow`](skills/debugging-workflow/SKILL.md) | Investigate software failures and establish evidence-backed root causes without implementing fixes. |
+| [`code-review-workflow`](skills/code-review-workflow/SKILL.md) | Review code changes, existing code, or review feedback with evidence-backed findings. |
 | [`commit-conventions`](skills/commit-conventions/SKILL.md) | Organize changes into focused commits and write consistent messages with or without issue identifiers. |
 | [`qa-handoff`](skills/qa-handoff/SKILL.md) | Prepare evidence-based delivery information to help QA understand, access, and test a change. |
 
