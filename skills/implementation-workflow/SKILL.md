@@ -15,6 +15,14 @@ Execute approved software changes in the current agent context. This skill imple
 - Follow repository conventions and mandatory CI/CD gates. Verification must be evidenced, not assumed.
 - Keep one consolidated, persistent execution checkpoint. Protect preexisting and unrelated changes.
 
+## Execution continuity
+
+Once execution begins, continue until the authorized Task, Milestone, or full scope is completed, or a concrete blocker prevents further safe progress. Completion includes implementation, applicable documentation, required verification, and diff review. Do not enter an unselected scope.
+
+Do not end the turn or report final status while authorized work remains actionable. Inspection, internal planning, checkpoints, partial implementation, and identifying next steps are not stopping points. Handle recoverable failures, unexpected complexity, and ordinary technical adjustments autonomously.
+
+Before declaring a blocker, investigate feasible in-scope alternatives and complete independent work that can proceed safely. Record the concrete impediment, evidence, alternatives attempted, affected scope, and external action or material decision needed. Respect explicit user interruption; harness or runtime interruptions cannot be prevented by this skill, so preserve an accurate checkpoint when possible.
+
 ## 1. Identify and prepare
 
 1. Use the provided spec/plan paths, or locate the corresponding artifacts through targeted repository inspection. Follow repository conventions (defaults: `docs/development/specs/` and `docs/development/plans/`). Confirm approval from the conversation: a clear request to execute the presented spec or plan counts as approval. The artifact's existence alone is insufficient; if authorization is unclear, ask.
@@ -48,9 +56,9 @@ Keep moving within the authorized scope unless a material blocker or decision ar
 
 Resolve ordinary technical details, equivalent adjustments to renamed code, and necessary proportionate local refactors without asking. Small improvements in the modified area are acceptable when safe and directly relevant; do not broaden the change for incidental cleanup.
 
-If a **materially valuable refactor or architectural improvement outside the approved scope** is discovered, pause and explain the evidence, benefit, risks, and scope impact. Let the user choose to revise/approve the spec and plan or continue the original approach. Do not implement the suggestion or silently discard a significant recommendation.
+Record significant optional refactors or architectural improvements outside the approved scope and continue the original work. Do not implement them without authorization; report the opportunity with its evidence, benefit, risks, and scope impact.
 
-Escalate unresolved material changes to approved behavior, contracts, architecture, scope, or required quality gates. If approved artifacts change, revalidate affected work and preserve unaffected progress.
+Escalate unresolved material changes to approved behavior, contracts, architecture, scope, or required quality gates only when a decision is indispensable for safe progress. If approved artifacts change, revalidate affected work and preserve unaffected progress.
 
 ## 5. Verify and stop
 

@@ -53,11 +53,13 @@ Omit inapplicable fields. For **plan execution**, retain original Task/Milestone
 - **Current execution:** `IN_PROGRESS`, `PAUSED`, `BLOCKED`, `COMPLETED`.
 - **Task:** `PENDING`, `IN_PROGRESS`, `BLOCKED`, `COMPLETED`.
 
+`IN_PROGRESS` means work is incomplete; continue while it is actionable within the authorized scope. `PAUSED` is for an explicit user pause or an imposed interruption, not an ordinary checkpoint. `BLOCKED` requires a concrete unresolved impediment to safe progress after feasible alternatives and independent work have been pursued. `COMPLETED` requires the applicable scope and verification to be finished; never use it for incomplete work.
+
 The authorized execution scope can be `COMPLETED` while the overall implementation remains `IN_PROGRESS`. Overall completion also requires the applicable final verification; completed Tasks alone are not sufficient. Checks may be `PASS`, `FAIL`, `NOT_RUN`, `BLOCKED`, or `NOT_APPLICABLE`; mark stale evidence explicitly.
 
 ## Checkpoints
 
-Initialize before the first implementation edit. Update when a scope is chosen/changed, when starting or verifying a Task, on significant progress within a long Task, on consequential decisions or blockers, and when pausing or finishing. Update before a predictable context handoff when possible. Do not rewrite the file after every command or trivial Step.
+Initialize before the first implementation edit. Update when a scope is chosen/changed, when starting or verifying a Task, on significant progress within a long Task, on consequential decisions or blockers, and when pausing or finishing. Update before a predictable context handoff when possible. Checkpoints preserve progress for recovery; they are not execution stopping points. Do not rewrite the file after every command or trivial Step.
 
 Keep the **latest reliable state**, with concise completed Task evidence and only consequential decisions. Replace obsolete checkpoints rather than appending a diary. Preserve which work remains, which checks passed, what changed since those checks, and the next safe action.
 

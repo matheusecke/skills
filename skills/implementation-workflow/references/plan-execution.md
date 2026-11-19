@@ -32,4 +32,4 @@ Mark a Task `COMPLETED` only after its Objective, applicable Steps, requirements
 
 At a Milestone boundary, check applicable integration among its Tasks. At full-plan completion, check cross-Task behavior, spec coverage, documentation, and required overall gates. For partial execution, validate only the authorized completed scope and relevant dependencies; do not require unfinished future Tasks to be complete.
 
-Close the current execution at its chosen boundary. Mark the **overall plan** complete only when all planned work and applicable final verification have passed.
+Continue through implementation, applicable documentation, verification, and review until the chosen boundary is complete or concretely blocked. Mark the **overall plan** complete only when all planned work and applicable final verification have passed.
