@@ -8,6 +8,7 @@ Portable [Agent Skills](https://agentskills.io/specification) for software engin
 
 | Skill | Purpose |
 | --- | --- |
+| [`code-review-workflow`](skills/code-review-workflow/SKILL.md) | Review code changes, existing code, or review feedback with evidence-backed findings. |
 | [`debugging-workflow`](skills/debugging-workflow/SKILL.md) | Investigate software failures and establish evidence-backed root causes without implementing fixes. |
 | [`planning-workflow`](skills/planning-workflow/SKILL.md) | Align Git references, investigate requirements and edge cases, write a persistent specification, and create an adaptive technical plan. It stops before implementation. |
 | [`decision-refinement`](skills/decision-refinement/SKILL.md) | Clarify proposals and decisions through dependency-aware questions, researched facts, trade-offs, and recommended answers. |
@@ -26,6 +27,7 @@ Install these skills globally for Codex, Claude Code, and Cursor:
 
 ```bash
 npx skills add matheusecke/skills \
+  --skill code-review-workflow \
   --skill debugging-workflow \
   --skill planning-workflow \
   --skill decision-refinement \
@@ -52,7 +54,7 @@ mkdir -p "$HOME/.agents/skills" "$HOME/.claude/skills"
 Create links to the actual skill directories. This keeps the clone as one source of truth and preserves each skill's `SKILL.md` and references:
 
 ```bash
-for skill in debugging-workflow planning-workflow decision-refinement implementation-workflow visual-prototyping commit-conventions qa-handoff; do
+for skill in code-review-workflow debugging-workflow planning-workflow decision-refinement implementation-workflow visual-prototyping commit-conventions qa-handoff; do
   for agent_dir in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
     target="$agent_dir/$skill"
     if [ -e "$target" ] || [ -L "$target" ]; then
@@ -69,6 +71,8 @@ The `~/.agents/skills/` directory is supported by Codex and Cursor; `~/.claude/s
 ## Usage
 
 Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workflow` in Claude Code and Cursor. Replace the name to invoke `decision-refinement` or `implementation-workflow` directly. Invocation support can vary by agent version.
+
+`code-review-workflow` reviews selected code or review feedback and reports evidence-backed findings without implementing fixes.
 
 `debugging-workflow` investigates failures and reports evidence-backed diagnoses without prescribing or implementing fixes.
 
@@ -87,6 +91,9 @@ Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workf
 ```text
 skills/
 ├── skills/
+│   ├── code-review-workflow/
+│   │   ├── SKILL.md
+│   │   └── references/
 │   ├── debugging-workflow/
 │   │   ├── SKILL.md
 │   │   └── references/
