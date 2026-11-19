@@ -70,21 +70,39 @@ The `~/.agents/skills/` directory is supported by Codex and Cursor; `~/.claude/s
 
 ## Usage
 
-Invoke a skill explicitly with `$planning-workflow` in Codex or `/planning-workflow` in Claude Code and Cursor. Replace the name to invoke `decision-refinement` or `implementation-workflow` directly. Invocation support can vary by agent version.
+Invoke a skill explicitly with `$skill-name` in Codex or `/skill-name` in Claude Code and Cursor. Invocation support can vary by agent version.
 
-`code-review-workflow` reviews selected code or review feedback and reports evidence-backed findings without implementing fixes.
+### Planning Workflow
 
-`debugging-workflow` investigates failures and reports evidence-backed diagnoses without prescribing or implementing fixes.
+Use `planning-workflow` to investigate requirements and prepare an implementation-ready specification. It creates a separate technical plan when needed or requested and stops before implementation. It can use `decision-refinement` for unresolved decisions.
 
-`planning-workflow` guides engineering discovery and planning. It always produces a specification and stops for approval in the conversation; a clear request to proceed counts as approval, without recording it in the artifact. A separate implementation-agnostic plan is created when requested or warranted by dependencies, coordination, handoff, or risk; complex or high-risk changes use a structured plan. It does not implement features. For structured, unresolved decisions, it uses `decision-refinement` when available. Installing both is recommended; the workflow has a lightweight fallback if the second skill is unavailable.
+### Decision Refinement
 
-`visual-prototyping` produces local visual references for a concrete question. A direct prototype request or explicit acceptance of an offer authorizes creation; a suggestion alone does not. Planning and decision refinement can optionally offer it, respecting refusals and existing approval gates. It needs Bash 3.2+, Node.js 22+ and a modern browser with EventSource. The preview binds to local loopback and automatic browser opening is best-effort; remote hosts may need user-managed port forwarding. Foreground execution in a persistent job may be needed when an agent terminates background processes. See its [runtime guide](skills/visual-prototyping/references/preview-runtime.md).
+Use `decision-refinement` to clarify a proposal or decision through structured questions, research, trade-offs, and recommended answers.
 
-`implementation-workflow` executes an approved plan or, when no formal plan exists, an approved spec. It supports scoped execution and persistent recovery through one consolidated checkpoint. It implements within those approved artifacts and does not replace discovery or planning.
+### Visual Prototyping
 
-`commit-conventions` proposes or creates focused commits using consistent messages, with an issue identifier when reliably associated with the work. A proposal alone does not authorize creating commits.
+Use `visual-prototyping` to explore a concrete visual or interaction decision through a local prototype. See the [runtime guide](skills/visual-prototyping/references/preview-runtime.md) for requirements and preview instructions.
 
-`qa-handoff` prepares or reviews delivery information for QA, separating confirmed facts from pending information. It does not create test cases unless requested.
+### Implementation Workflow
+
+Use `implementation-workflow` to execute an approved plan or specification. Choose the execution scope and track progress through a consolidated checkpoint.
+
+### Debugging Workflow
+
+Use `debugging-workflow` to investigate a software failure and establish an evidence-backed diagnosis. It reports causes and uncertainties without designing or implementing a fix.
+
+### Code Review Workflow
+
+Use `code-review-workflow` to review a selected change, existing code, or review feedback. It reports evidence-backed findings and risks without implementing fixes.
+
+### Commit Conventions
+
+Use `commit-conventions` to organize changes into focused commits and write consistent commit messages. It can also propose a commit breakdown without creating commits.
+
+### QA Handoff
+
+Use `qa-handoff` to prepare or review delivery information that helps QA understand, access, and test a change. It separates confirmed information from items that still need clarification.
 
 ## Repository Structure
 
